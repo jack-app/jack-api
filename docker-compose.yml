@@ -15,13 +15,20 @@ services:
     links:
       - db
     volumes:
-      - ".:/app" #共有フォルダの設定
+      - ".:/app"
+      - "bundle:/app/vendor/bundle"
     stdin_open: true
 
   db:
     image: postgres:10.1
     ports:
       - "5432:5432"
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
     environment:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=mysecretpassword1234"
+
+volumes:
+  postgres:
+  bundle:
