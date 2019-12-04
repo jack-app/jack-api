@@ -9,7 +9,10 @@ class AuthController < ApplicationController
 
   def callback
     if params[:code]
-      user_id = Slack.oauth_access({client_id: ENV["SLACK_CLIENT_ID"], client_secret: ENV["SLACK_CLIENT_SECRET"], code: params[:code], scope: "users:read,users:read.email"})["user_id"]
+      resp = Slack.oauth_access({client_id: ENV["SLACK_CLIENT_ID"], client_secret: ENV["SLACK_CLIENT_SECRET"], code: params[:code], scope: "users:read,users:read.email"})
+
+      user_id = resp["user_id"]
+
       if user_id
         resp = Slack.users_info(:user => user_id)
 
@@ -20,6 +23,7 @@ class AuthController < ApplicationController
 
         redirect_to "#{params[:state]}?status=ok&auth_id=#{auth_id}&auth_token=#{auth_token}"
       else
+        puts resp
         redirect_to "#{params[:state]}?status=error"
       end
     else
