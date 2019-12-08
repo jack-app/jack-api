@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     scope '/v1' do
       get 'auth/login'
       get 'auth/callback'
+      get 'auth/test'
 
       resources :users, only: [:index, :show, :update, :destroy]
     end

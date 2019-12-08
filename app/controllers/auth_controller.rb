@@ -38,8 +38,8 @@ class AuthController < ApplicationController
             first_name = resp['user']['real_name'].split(/\s/)[1];
             last_name = resp['user']['real_name'].split(/\s/)[0];
           else
-            first_name = resp['user']['real_name'].substr(2);
-            last_name = resp['user']['real_name'].substr(0, 2);
+            first_name = resp['user']['real_name'].slice(2..-1);
+            last_name = resp['user']['real_name'].slice(0..1);
           end
           user.first_name = first_name
           user.last_name = last_name
@@ -59,6 +59,14 @@ class AuthController < ApplicationController
       end
     else
       redirect_to "#{params[:state]}?status=error"
+    end
+  end
+
+  def test
+    if authenticate
+      render status: 200
+    else
+      render status: 400
     end
   end
 end
