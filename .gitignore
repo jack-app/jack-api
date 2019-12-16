@@ -27,4 +27,6 @@
 
 Thumbs.db
 
-.vendor/bundle/*
+vendor/bundle/*
+
+.env
